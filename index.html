@@ -311,7 +311,7 @@
 
   .t-subtitle {
     font-family: 'Montserrat', sans-serif;
-    font-size: clamp(0.7rem, 1.3vw, 1rem);
+    font-size: clamp(0.52rem, 1vw, 0.78rem);
     font-weight: 500;
     color: rgba(255,255,255,0.75);
     line-height: 1.5;
@@ -321,7 +321,7 @@
 
   .t-body {
     font-family: 'DM Sans', sans-serif;
-    font-size: clamp(0.7rem, 1.3vw, 1rem);
+    font-size: clamp(0.52rem, 1vw, 0.78rem);
     color: #333;
     line-height: 1.65;
   }
@@ -370,37 +370,53 @@
 
   /* BULLET LIST */
   .bullet-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-left: 0;
   }
+
   .bullet-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: clamp(0.7rem, 1.3vw, 1rem);
-    color: #222;
-    line-height: 1.5;
+      position: relative;
+      padding-left: 22px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(0.52rem, 1vw, 0.78rem);
+      color: #222;
+      line-height: 1.65;
+      text-align: left;
   }
+
   .bullet-list li::before {
-    content: '';
-    flex-shrink: 0;
-    width: 8px; height: 8px;
-    border-radius: 2px;
-    background: var(--blue);
-    margin-top: 4px;
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: var(--blue);
   }
-  .bullet-list.light li { color: rgba(255,255,255,0.85); }
-  .bullet-list.light li::before { background: white; }
+
+  .bullet-list li strong {
+      display: inline;
+      position: static;
+  }
+
+  .bullet-list.light li {
+      color: rgba(255,255,255,0.85);
+  }
+
+  .bullet-list.light li::before {
+      background: white;
+  }
 
   /* TABLE */
   .data-table {
     width: 100%;
     border-collapse: collapse;
     font-family: 'DM Sans', sans-serif;
-    font-size: clamp(0.7rem, 1.3vw, 1rem);
+    font-size: clamp(0.52rem, 1vw, 0.78rem);
   }
   .data-table thead th {
     background: var(--blue);
@@ -1141,18 +1157,58 @@
   </div>
 
 <!-- ======================== SLIDE 18: ORGANIGRAMA ======================== -->
-  <div class="slide layout-content" style="background:#0a0f1e">
-    <div class="slide-num" style="color:rgba(255,255,255,0.3)">18 / 37</div>
-    <div style="flex:1;display:flex;flex-direction:column;padding:2%;">
-      <div style="margin-bottom:6px">
-        <span style="font-family:'Montserrat',sans-serif;font-size:clamp(0.45rem,0.8vw,0.6rem);font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5)">Estudio Técnico — 2.2.2</span>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,2.5vw,2rem);color:white;letter-spacing:1px">Estructura Organizacional</div>
-      </div>
-      <div style="flex:1;display:flex;align-items:center;justify-content:center;">
-        <img src="2_2_2.jpg" style="max-width:100%;max-height:100%;object-fit:contain;display:block;">
-      </div>
-    </div>
+<div class="slide layout-content" style="background:#0a0f1e">
+  
+  <div class="slide-num" style="color:rgba(255,255,255,0.3)">
+    18 / 37
   </div>
+
+  <!-- HEADER -->
+  <div style="padding:2% 4% 1%;">
+    
+    <span style="
+      font-family:'Montserrat',sans-serif;
+      font-size:clamp(0.45rem,0.8vw,0.6rem);
+      font-weight:700;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      color:rgba(255,255,255,0.5)">
+      Estudio Técnico — 2.2.2
+    </span>
+
+    <div style="
+      font-family:'Bebas Neue',sans-serif;
+      font-size:clamp(1rem,2.5vw,2rem);
+      color:white;
+      letter-spacing:1px;
+      margin-top:4px">
+      Estructura Organizacional
+    </div>
+
+  </div>
+
+  <!-- IMAGE CONTAINER -->
+  <div style="
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 3% 3%;
+    overflow:hidden;">
+
+    <img 
+      src="2_2_2.jpg"
+      style="
+        width:100%;
+        height:100%;
+        object-fit:contain;
+        border-radius:6px;
+        display:block;
+      ">
+
+  </div>
+
+</div>
 
   <!-- ======================== SLIDE 19: DESCRIPCIÓN DE CARGOS ======================== -->
   <div class="slide layout-content">
@@ -1342,34 +1398,83 @@
     </div>
   </div>
 
-  <!-- ======================== SLIDE 26: CAPEX - COSTOS DE INVERSIÓN ======================== -->
-  <div class="slide layout-table">
-    <div class="slide-num dark">26 / 37</div>
-    <div class="slide-header">
-      <span class="t-overline">Estructura Económica — 4.1</span>
-      <div class="t-title">Costos de Inversión Inicial (CAPEX)</div>
-    </div>
-    <div class="slide-body">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Concepto de Inversión Inicial</th>
-            <th style="text-align:right;white-space:nowrap">Valor (COP)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Constitución formal, registros mercantiles e inscripciones legales</td><td style="text-align:right;white-space:nowrap">$ 8.000.000</td></tr>
-          <tr><td>Licencias de software corporativo y permisos sanitarios / ambientales CAR</td><td style="text-align:right;white-space:nowrap">$ 6.000.000</td></tr>
-          <tr><td>Equipos de cómputo de alta gama y servidores locales de TI</td><td style="text-align:right;white-space:nowrap">$ 25.000.000</td></tr>
-          <tr><td>Manufactura y componentes para lote inicial de 300 sensores IoT</td><td style="text-align:right;white-space:nowrap">$ 70.000.000</td></tr>
-          <tr><td>Desarrollo de software a medida: plataforma web y aplicación móvil</td><td style="text-align:right;white-space:nowrap">$ 60.000.000</td></tr>
-          <tr><td>Anticipo y enganche para contrato de Leasing de Camión Vactor</td><td style="text-align:right;white-space:nowrap">$ 120.000.000</td></tr>
-          <tr><td>Fondo líquido de reserva — capital de trabajo primeros meses</td><td style="text-align:right;white-space:nowrap">$ 65.000.000</td></tr>
-          <tr class="total-row"><td class="total">TOTAL INVERSIÓN INICIAL REQUERIDA (CAPEX)</td><td style="text-align:right;white-space:nowrap" class="total">$ 354.000.000</td></tr>
-        </tbody>
-      </table>
-    </div>
+<!-- ======================== SLIDE 26: CAPEX - COSTOS DE INVERSIÓN ======================== -->
+<div class="slide layout-table">
+  <div class="slide-num dark">26 / 37</div>
+
+  <div class="slide-header">
+    <span class="t-overline">Estructura Económica — 4.1</span>
+    <div class="t-title">Costos de Inversión Inicial (CAPEX)</div>
   </div>
+
+  <div class="slide-body">
+    
+    <table class="data-table">
+      
+      <thead>
+        <tr>
+          <th>Concepto de Inversión Inicial</th>
+          <th style="text-align:right;white-space:nowrap">Valor (COP)</th>
+          <th style="text-align:center;white-space:nowrap">Porcentaje</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td>Constitución formal, registros mercantiles e inscripciones legales</td>
+          <td style="text-align:right;white-space:nowrap">$ 8.000.000</td>
+          <td style="text-align:center">2.26%</td>
+        </tr>
+
+        <tr>
+          <td>Licencias de software corporativo y permisos sanitarios / ambientales CAR</td>
+          <td style="text-align:right;white-space:nowrap">$ 6.000.000</td>
+          <td style="text-align:center">1.69%</td>
+        </tr>
+
+        <tr>
+          <td>Equipos de cómputo de alta gama y servidores locales de TI</td>
+          <td style="text-align:right;white-space:nowrap">$ 25.000.000</td>
+          <td style="text-align:center">7.06%</td>
+        </tr>
+
+        <tr>
+          <td>Manufactura y componentes para lote inicial de 300 sensores IoT</td>
+          <td style="text-align:right;white-space:nowrap">$ 70.000.000</td>
+          <td style="text-align:center">19.77%</td>
+        </tr>
+
+        <tr>
+          <td>Desarrollo de software a medida: plataforma web y aplicación móvil</td>
+          <td style="text-align:right;white-space:nowrap">$ 60.000.000</td>
+          <td style="text-align:center">16.95%</td>
+        </tr>
+
+        <tr>
+          <td>Anticipo y enganche para contrato de Leasing de Camión Vactor</td>
+          <td style="text-align:right;white-space:nowrap">$ 120.000.000</td>
+          <td style="text-align:center">33.90%</td>
+        </tr>
+
+        <tr>
+          <td>Fondo líquido de reserva — capital de trabajo primeros meses</td>
+          <td style="text-align:right;white-space:nowrap">$ 65.000.000</td>
+          <td style="text-align:center">18.36%</td>
+        </tr>
+
+        <tr class="total-row">
+          <td class="total">TOTAL INVERSIÓN INICIAL REQUERIDA (CAPEX)</td>
+          <td style="text-align:right;white-space:nowrap" class="total">$ 354.000.000</td>
+          <td style="text-align:center" class="total">100.00%</td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+</div>
 
   <!-- ======================== SLIDE 27: OPEX - GASTOS FIJOS ======================== -->
   <div class="slide layout-table">
@@ -1482,44 +1587,261 @@
     </div>
   </div>
 
-  <!-- ======================== SLIDE 31: BALANCE GENERAL ======================== -->
-  <div class="slide layout-content">
-    <div class="slide-num">31 / 37</div>
-    <div class="slide-header">
-      <span class="t-overline">Estructura Económica — 4.5</span>
-      <div class="t-title">Balance General — Análisis Vertical</div>
-    </div>
-    <div class="slide-body">
-      <div style="display:flex;gap:5%;margin-bottom:14px">
-        <div style="flex:1">
-          <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.48rem,0.85vw,0.66rem);color:var(--blue);text-transform:uppercase;margin-bottom:8px">Activos Totales — $429M</div>
-          <div style="display:flex;flex-direction:column;gap:4px">
-            <div style="display:flex;align-items:center;gap:8px">
-              <div style="background:var(--blue);height:22px;border-radius:3px;flex:0.6736;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.38rem,0.68vw,0.52rem);color:white">67.36%</div>
-              <div class="t-body">No Corriente (maquinaria, software, hardware) — $289M</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px">
-              <div style="background:var(--light-blue);height:22px;border-radius:3px;flex:0.3264;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.38rem,0.68vw,0.52rem);color:white">32.64%</div>
-              <div class="t-body">Corriente (caja, bancos, inventario) — $140M</div>
-            </div>
-          </div>
-        </div>
-        <div style="flex:1">
-          <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.48rem,0.85vw,0.66rem);color:var(--blue);text-transform:uppercase;margin-bottom:8px">Financiamiento</div>
-          <div style="display:flex;flex-direction:column;gap:4px">
-            <div style="display:flex;align-items:center;gap:8px">
-              <div style="background:var(--blue);height:22px;border-radius:3px;flex:0.6737;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.38rem,0.68vw,0.52rem);color:white">67.37%</div>
-              <div class="t-body">Patrimonio Neto — $289M</div>
-            </div>
-            <div style="display:flex;align-items:center;gap:8px">
-              <div style="background:#ef4444;height:22px;border-radius:3px;flex:0.3263;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.38rem,0.68vw,0.52rem);color:white">32.63%</div>
-              <div class="t-body">Pasivo Total (corto + largo plazo) — $140M</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- ======================== SLIDE 31: BALANCE GENERAL ======================== -->
+<div class="slide layout-content">
+
+  <div class="slide-num">31 / 37</div>
+
+  <div class="slide-header">
+    <span class="t-overline">Estructura Económica — 4.5</span>
+    <div class="t-title">Balance General — Análisis Vertical</div>
   </div>
+
+  <div class="slide-body" style="justify-content:flex-start;padding-top:3%">
+
+    <!-- RESUMEN SUPERIOR -->
+    <div style="
+      background:linear-gradient(135deg,var(--blue),var(--dark-blue));
+      border-radius:10px;
+      padding:18px 22px;
+      margin-bottom:22px;
+      color:white;">
+
+      <div style="
+        font-family:'Montserrat',sans-serif;
+        font-size:clamp(0.48rem,0.85vw,0.66rem);
+        letter-spacing:2px;
+        text-transform:uppercase;
+        opacity:.7;
+        margin-bottom:6px">
+        Balance consolidado año 1
+      </div>
+
+      <div style="
+        font-family:'Bebas Neue',sans-serif;
+        font-size:clamp(1.6rem,3vw,2.6rem);
+        line-height:1">
+        $429 MILLONES COP
+      </div>
+
+      <div style="
+        margin-top:10px;
+        font-size:clamp(0.5rem,0.9vw,0.72rem);
+        line-height:1.5;
+        opacity:.9">
+        La estructura financiera evidencia una sólida composición patrimonial,
+        con predominio de activos estratégicos y baja dependencia de deuda externa.
+      </div>
+
+    </div>
+
+    <!-- DOS COLUMNAS -->
+    <div style="display:flex;gap:5%">
+
+      <!-- ACTIVOS -->
+      <div style="
+        flex:1;
+        background:white;
+        border:1px solid var(--light-gray);
+        border-radius:10px;
+        padding:18px;">
+
+        <div style="
+          font-family:'Montserrat',sans-serif;
+          font-weight:800;
+          font-size:clamp(0.52rem,0.9vw,0.72rem);
+          color:var(--blue);
+          text-transform:uppercase;
+          margin-bottom:18px">
+          Estructura de Activos
+        </div>
+
+        <!-- ITEM -->
+        <div style="margin-bottom:16px">
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:6px">
+
+            <span class="t-body"><strong>Activo No Corriente</strong></span>
+
+            <span style="
+              font-family:'Montserrat',sans-serif;
+              font-weight:700;
+              color:var(--blue)">
+              67.36%
+            </span>
+
+          </div>
+
+          <div style="
+            width:100%;
+            height:16px;
+            background:#dbe7ff;
+            border-radius:20px;
+            overflow:hidden">
+
+            <div style="
+              width:67.36%;
+              height:100%;
+              background:var(--blue)">
+            </div>
+
+          </div>
+
+          <div class="t-body" style="margin-top:6px">
+            $289M — maquinaria, software y hardware
+          </div>
+
+        </div>
+
+        <!-- ITEM -->
+        <div>
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:6px">
+
+            <span class="t-body"><strong>Activo Corriente</strong></span>
+
+            <span style="
+              font-family:'Montserrat',sans-serif;
+              font-weight:700;
+              color:var(--light-blue)">
+              32.64%
+            </span>
+
+          </div>
+
+          <div style="
+            width:100%;
+            height:16px;
+            background:#dbe7ff;
+            border-radius:20px;
+            overflow:hidden">
+
+            <div style="
+              width:32.64%;
+              height:100%;
+              background:var(--light-blue)">
+            </div>
+
+          </div>
+
+          <div class="t-body" style="margin-top:6px">
+            $140M — caja, bancos e inventario
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- FINANCIAMIENTO -->
+      <div style="
+        flex:1;
+        background:white;
+        border:1px solid var(--light-gray);
+        border-radius:10px;
+        padding:18px;">
+
+        <div style="
+          font-family:'Montserrat',sans-serif;
+          font-weight:800;
+          font-size:clamp(0.52rem,0.9vw,0.72rem);
+          color:var(--blue);
+          text-transform:uppercase;
+          margin-bottom:18px">
+          Estructura de Financiamiento
+        </div>
+
+        <!-- ITEM -->
+        <div style="margin-bottom:16px">
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:6px">
+
+            <span class="t-body"><strong>Patrimonio Neto</strong></span>
+
+            <span style="
+              font-family:'Montserrat',sans-serif;
+              font-weight:700;
+              color:var(--blue)">
+              67.37%
+            </span>
+
+          </div>
+
+          <div style="
+            width:100%;
+            height:16px;
+            background:#dbe7ff;
+            border-radius:20px;
+            overflow:hidden">
+
+            <div style="
+              width:67.37%;
+              height:100%;
+              background:var(--blue)">
+            </div>
+
+          </div>
+
+          <div class="t-body" style="margin-top:6px">
+            $289M — capital consolidado propio
+          </div>
+
+        </div>
+
+        <!-- ITEM -->
+        <div>
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:6px">
+
+            <span class="t-body"><strong>Pasivo Total</strong></span>
+
+            <span style="
+              font-family:'Montserrat',sans-serif;
+              font-weight:700;
+              color:#ef4444">
+              32.63%
+            </span>
+
+          </div>
+
+          <div style="
+            width:100%;
+            height:16px;
+            background:#ffdede;
+            border-radius:20px;
+            overflow:hidden">
+
+            <div style="
+              width:32.63%;
+              height:100%;
+              background:#ef4444">
+            </div>
+
+          </div>
+
+          <div class="t-body" style="margin-top:6px">
+            $140M — obligaciones corto y largo plazo
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
 
   <!-- ======================== SLIDE 32: INDICADORES FINANCIEROS ======================== -->
   <div class="slide layout-content">
