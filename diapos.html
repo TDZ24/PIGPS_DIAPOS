@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INGENIERÍA DE GESTIÓN AMBIENTAL S.A.S.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #1a4ed8;
+    --dark-blue: #0f2fa3;
+    --light-blue: #3b6ef6;
+    --white: #ffffff;
+    --off-white: #f0f4ff;
+    --black: #0a0a0a;
+    --gray: #888888;
+    --light-gray: #e8edf8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0a0f1e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 30px 20px;
+    gap: 0;
+  }
+
+  /* NAV */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 30px;
+    background: rgba(10,15,30,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    color: var(--white);
+    letter-spacing: 2px;
+  }
+  .nav-counter {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    color: var(--gray);
+    letter-spacing: 1px;
+  }
+  .nav-controls {
+    display: flex;
+    gap: 10px;
+  }
+  .nav-btn {
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 7px 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .nav-btn:hover { background: var(--dark-blue); }
+
+  /* SLIDESHOW WRAPPER */
+  .slides-container {
+    width: 100%;
+    max-width: 960px;
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* SLIDE BASE */
+  .slide {
+    width: 100%;
+    aspect-ratio: 16/9;
+    position: relative;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    border-radius: 4px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  }
+  .slide.active { display: flex; }
+
+  /* SLIDE NUMBER BADGE */
+  .slide-num {
+    position: absolute;
+    top: 18px; right: 22px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.5);
+    z-index: 10;
+  }
+  .slide-num.dark { color: rgba(0,0,0,0.3); }
+
+  /* ============================
+     LAYOUTS
+  ============================== */
+
+  /* COVER - TIPO 1: full blue split */
+  .layout-cover {
+    background: var(--blue);
+    flex-direction: row;
+  }
+  .layout-cover .left {
+    flex: 1.2;
+    background: var(--dark-blue);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8%;
+    position: relative;
+  }
+  .layout-cover .left::after {
+    content: '';
+    position: absolute;
+    right: -40px; top: 0; bottom: 0;
+    width: 80px;
+    background: var(--dark-blue);
+    clip-path: polygon(0 0, 0 100%, 100% 100%);
+  }
+  .layout-cover .right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8% 10% 8% 12%;
+  }
+
+  /* TABLE OF CONTENTS */
+  .layout-toc {
+    background: var(--white);
+    flex-direction: row;
+  }
+  .layout-toc .left {
+    flex: 0.8;
+    background: var(--blue);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8%;
+  }
+  .layout-toc .right {
+    flex: 1.2;
+    padding: 7% 8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* SECTION HEADER */
+  .layout-section {
+    background: var(--blue);
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .layout-section .left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8%;
+  }
+  .layout-section .right {
+    flex: 0.6;
+    background: var(--dark-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5%;
+  }
+
+  /* CONTENT SLIDE */
+  .layout-content {
+    background: var(--white);
+    flex-direction: column;
+  }
+  .layout-content .slide-header {
+    background: var(--blue);
+    padding: 4% 7% 3%;
+    flex-shrink: 0;
+  }
+  .layout-content .slide-body {
+    flex: 1;
+    padding: 4% 7%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* TWO COLUMN */
+  .layout-two-col {
+    background: var(--white);
+    flex-direction: column;
+  }
+  .layout-two-col .slide-header {
+    background: var(--blue);
+    padding: 4% 7% 3%;
+  }
+  .layout-two-col .cols {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    padding: 4% 7%;
+    gap: 5%;
+  }
+  .layout-two-col .col { flex: 1; }
+
+  /* FINANCIAL TABLE */
+  .layout-table {
+    background: var(--off-white);
+    flex-direction: column;
+  }
+  .layout-table .slide-header {
+    background: var(--blue);
+    padding: 4% 7% 3%;
+  }
+  .layout-table .slide-body {
+    flex: 1;
+    padding: 3% 5%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* DARK FULL */
+  .layout-dark {
+    background: #0a0f1e;
+    flex-direction: column;
+    justify-content: center;
+    padding: 7% 9%;
+  }
+
+  /* CLOSING */
+  .layout-closing {
+    background: var(--blue);
+    flex-direction: row;
+  }
+  .layout-closing .left {
+    flex: 1.3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8% 10%;
+  }
+  .layout-closing .right {
+    flex: 0.7;
+    background: var(--dark-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5%;
+  }
+
+  /* ============================
+     TYPOGRAPHY
+  ============================== */
+  .bebas { font-family: 'Bebas Neue', sans-serif; }
+  .montserrat { font-family: 'Montserrat', sans-serif; }
+  .dm { font-family: 'DM Sans', sans-serif; }
+
+  .t-overline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.45rem, 0.9vw, 0.65rem);
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .t-overline.dark { color: var(--blue); }
+
+  .t-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 6vw, 5.5rem);
+    line-height: 0.92;
+    color: var(--white);
+    letter-spacing: 1px;
+  }
+  .t-big.dark { color: var(--black); }
+
+  .t-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.4rem, 3.5vw, 3.2rem);
+    line-height: 1;
+    color: var(--white);
+    letter-spacing: 1px;
+  }
+  .t-title.dark { color: var(--black); }
+
+  .t-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.55rem, 1.1vw, 0.85rem);
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+    margin-top: 8px;
+  }
+  .t-subtitle.dark { color: var(--gray); }
+
+  .t-body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(0.52rem, 1vw, 0.78rem);
+    color: #333;
+    line-height: 1.65;
+  }
+  .t-body.light { color: rgba(255,255,255,0.85); }
+
+  .t-section-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.5rem, 0.85vw, 0.68rem);
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ============================
+     COMPONENTS
+  ============================== */
+  .accent-line {
+    width: 40px; height: 4px;
+    background: var(--white);
+    border-radius: 2px;
+    margin: 10px 0;
+  }
+  .accent-line.blue { background: var(--blue); }
+  .accent-line.small { width: 24px; height: 3px; }
+
+  .pill {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 100px;
+    padding: 3px 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.4rem, 0.75vw, 0.58rem);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: white;
+    margin-bottom: 12px;
+  }
+  .pill.blue-pill {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+  }
+
+  /* BULLET LIST */
+  .bullet-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .bullet-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(0.5rem, 0.95vw, 0.74rem);
+    color: #222;
+    line-height: 1.5;
+  }
+  .bullet-list li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    background: var(--blue);
+    margin-top: 4px;
+  }
+  .bullet-list.light li { color: rgba(255,255,255,0.85); }
+  .bullet-list.light li::before { background: white; }
+
+  /* TABLE */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(0.42rem, 0.82vw, 0.65rem);
+  }
+  .data-table thead th {
+    background: var(--blue);
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 10px;
+    text-align: left;
+  }
+  .data-table tbody tr:nth-child(even) { background: rgba(26,78,216,0.06); }
+  .data-table tbody tr:nth-child(odd) { background: white; }
+  .data-table td {
+    padding: 7px 10px;
+    color: #222;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .data-table td.total {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    color: var(--dark-blue);
+  }
+  .data-table tr.total-row { background: var(--off-white) !important; }
+
+  /* ICON BOX */
+  .icon-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .icon-circle {
+    flex-shrink: 0;
+    width: clamp(28px, 4vw, 38px);
+    height: clamp(28px, 4vw, 38px);
+    border-radius: 50%;
+    background: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(0.7rem, 1.4vw, 1.1rem);
+    color: white;
+  }
+  .icon-circle.light {
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* STAT CARD */
+  .stat-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+  }
+  .stat-card {
+    flex: 1;
+    background: var(--blue);
+    border-radius: 8px;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .stat-card.light {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .stat-card.white {
+    background: white;
+    border: 1px solid var(--light-gray);
+  }
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.2rem, 3vw, 2.4rem);
+    color: white;
+    line-height: 1;
+  }
+  .stat-value.dark { color: var(--blue); }
+  .stat-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.38rem, 0.7vw, 0.56rem);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .stat-label.dark { color: var(--gray); }
+
+  /* TOC ITEM */
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light-gray);
+  }
+  .toc-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.6rem);
+    color: var(--blue);
+    flex-shrink: 0;
+    width: 32px;
+  }
+  .toc-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.48rem, 0.9vw, 0.7rem);
+    font-weight: 600;
+    color: #111;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .toc-dot {
+    flex: 1;
+    height: 1px;
+    background: repeating-linear-gradient(90deg, #ccc 0, #ccc 4px, transparent 4px, transparent 8px);
+    margin: 0 6px;
+  }
+  .toc-page {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.45rem, 0.8vw, 0.62rem);
+    font-weight: 700;
+    color: var(--gray);
+  }
+
+  /* PHASE CARD */
+  .phase-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .phase-card {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .phase-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.8rem);
+    color: rgba(255,255,255,0.3);
+    line-height: 1;
+  }
+  .phase-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.38rem, 0.65vw, 0.52rem);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: white;
+  }
+
+  /* ORG CHART */
+  .org-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .org-box {
+    background: var(--blue);
+    color: white;
+    border-radius: 6px;
+    padding: 7px 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.42rem, 0.78vw, 0.6rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    min-width: 140px;
+  }
+  .org-box.top {
+    background: var(--dark-blue);
+    min-width: 180px;
+  }
+  .org-line {
+    width: 2px; height: 16px;
+    background: rgba(255,255,255,0.3);
+  }
+  .org-row {
+    display: flex;
+    gap: 10px;
+    position: relative;
+  }
+  .org-row::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* LEGAL ARTICLE */
+  .legal-item {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light-gray);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .legal-tag {
+    flex-shrink: 0;
+    background: var(--blue);
+    color: white;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.38rem, 0.65vw, 0.52rem);
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* CONCLUSIONES */
+  .conclusion-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    align-items: flex-start;
+  }
+  .conclusion-num {
+    flex-shrink: 0;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.4rem);
+    color: rgba(255,255,255,0.2);
+    line-height: 1;
+    width: 36px;
+    text-align: right;
+  }
+
+  /* DECO ELEMENTS */
+  .deco-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.08);
+  }
+  .grid-dots {
+    position: absolute;
+    width: 80px; height: 80px;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
+    bottom: 20px; left: 20px;
+  }
+  .grid-dots.dark-dots {
+    background-image: radial-gradient(circle, rgba(26,78,216,0.2) 1.5px, transparent 1.5px);
+  }
+
+  /* INDICATORS */
+  .slides-dots {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    max-width: 960px;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .dot.active { background: var(--blue); transform: scale(1.4); }
+
+  /* KEYBOARD HINT */
+  .keyboard-hint {
+    margin-top: 16px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 1px;
+    text-align: center;
+  }
+  .key {
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin: 0 2px;
+    font-size: 0.6rem;
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">IGA S.A.S. — Presentación Corporativa</div>
+  <div class="nav-counter" id="counter">Diapositiva 1 / 37</div>
+  <div class="nav-controls">
+    <button class="nav-btn" onclick="prevSlide()">← Anterior</button>
+    <button class="nav-btn" onclick="nextSlide()">Siguiente →</button>
+  </div>
+</nav>
+
+<div class="slides-container">
+
+  <!-- ======================== SLIDE 1: PORTADA ======================== -->
+  <div class="slide layout-cover active">
+    <div class="slide-num">01 / 37</div>
+    <div class="left">
+      <div class="grid-dots"></div>
+      <span class="t-overline">Universidad Cooperativa de Colombia · Facultad de Ingeniería</span>
+      <div class="t-big" style="font-size:clamp(1.8rem,5.5vw,5rem)">INGENIERÍA<br>DE GESTIÓN<br>AMBIENTAL</div>
+      <div class="t-big" style="color:rgba(255,255,255,0.25);font-size:clamp(1.2rem,3vw,2.8rem)">S.A.S.</div>
+      <div class="accent-line"></div>
+      <div class="t-subtitle">Informe Empresarial e Investigación de Factibilidad · 2026</div>
+    </div>
+    <div class="right">
+      <span class="pill">Proyecto de Empresa</span>
+      <div class="t-title" style="font-size:clamp(1rem,2.5vw,2.2rem)">DISEÑO, CONSTITUCIÓN Y EVALUACIÓN FINANCIERA</div>
+      <div class="accent-line"></div>
+      <div class="t-subtitle" style="margin-bottom:20px">Soluciones de telemetría IoT y software SaaS para el monitoreo inteligente de sistemas sépticos en Antioquia, Colombia.</div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.42rem,0.8vw,0.62rem);font-weight:700;letter-spacing:1px;color:rgba(255,255,255,0.4);text-transform:uppercase">Autor</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.55rem,1.1vw,0.82rem);color:white">Arturo Del Valle Zora</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.42rem,0.8vw,0.62rem);font-weight:700;letter-spacing:1px;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-top:6px">Asesor</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.55rem,1.1vw,0.82rem);color:white">Jaime Andrés Llanos Rodríguez</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.48rem,0.9vw,0.7rem);color:rgba(255,255,255,0.5);margin-top:6px">Medellín, Antioquia · 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 2: TABLA DE CONTENIDO ======================== -->
+  <div class="slide layout-toc">
+    <div class="slide-num dark">02 / 37</div>
+    <div class="left">
+      <span class="t-overline">Navegación</span>
+      <div class="t-title">TABLA<br>DE<br>CONTENIDO</div>
+      <div class="accent-line"></div>
+      <div class="t-subtitle">Informe corporativo completo organizado en 8 secciones principales.</div>
+    </div>
+    <div class="right">
+      <div class="toc-item">
+        <div class="toc-num">01</div>
+        <div class="toc-text">Introducción</div>
+        <div class="toc-dot"></div>
+        <div class="toc-page">03</div>
+      </div>
+      <div class="toc-item">
+        <div class="toc-num">02</div>
+        <div class="toc-text">Generalidades del Proyecto</div>
+        <div class="toc-dot"></div>
+        <div class="toc-page">07</div>
+      </div>
+      <div class="toc-item">
+        <div class="toc-num">03</div>
+        <div class="toc-text">Estudio Técnico de la Empresa</div>
+        <div class="toc-dot"></div>
+        <div class="toc-page">13</div>
+      </div>
+      <div class="toc-item">
+        <div class="toc-num">04</div>
+        <div class="toc-text">Estudio Legal y Constitución</div>
+        <div class="toc-dot"></div>
+        <div class="toc-page">18</div>
+      </div>
+      <div class="toc-item">
+        <div class="toc-num">05</div>
+        <div class="toc-text">Estructura Económica y Financiera</div>
+        <div class="toc-dot"></div>
+        <div class="toc-page">23</div>
+      </div>
+      <div class="toc-item">
+        <div class="toc-num">06</div>
+        <div class="toc-text">Conclusiones</div>
+        <div class="toc-dot"></div>
+        <div class="toc-page">31</div>
+      </div>
+      <div class="toc-item">
+        <div class="toc-num">07</div>
+        <div class="toc-text">Recomendaciones</div>
+        <div class="toc-dot"></div>
+        <div class="toc-page">33</div>
+      </div>
+      <div class="toc-item">
+        <div class="toc-num">08</div>
+        <div class="toc-text">Referencias y Anexos</div>
+        <div class="toc-dot"></div>
+        <div class="toc-page">35</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 3: INTRODUCCIÓN ======================== -->
+  <div class="slide layout-section">
+    <div class="slide-num">03 / 37</div>
+    <div class="left">
+      <span class="t-section-label">Sección 01</span>
+      <div class="t-big" style="font-size:clamp(2.5rem,7vw,6rem)">INTRO<br>DUC<br>CIÓN</div>
+      <div class="accent-line"></div>
+      <div class="t-subtitle" style="max-width:320px">El reto del saneamiento descentralizado en Colombia y la oportunidad tecnológica.</div>
+    </div>
+    <div class="right">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="icon-box">
+          <div class="icon-circle light">💧</div>
+          <div class="t-body light">Millones de viviendas en zonas rurales dependen de pozos sépticos sin monitoreo.</div>
+        </div>
+        <div class="icon-box">
+          <div class="icon-circle light">📡</div>
+          <div class="t-body light">La Cuarta Revolución Industrial abre paso a la telemetría IoT para el saneamiento.</div>
+        </div>
+        <div class="icon-box">
+          <div class="icon-circle light">🚨</div>
+          <div class="t-body light">El enfoque reactivo actual genera colapsos, costos de emergencia y daño ambiental.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 4: CONTEXTO ======================== -->
+  <div class="slide layout-content">
+    <div class="slide-num">04 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Introducción</span>
+      <div class="t-title">El Problema del Saneamiento Reactivo</div>
+    </div>
+    <div class="slide-body">
+      <div class="t-body" style="margin-bottom:14px">Los sistemas sépticos han permanecido aislados de los avances tecnológicos de la Industria 4.0. La gestión tradicional opera bajo un esquema puramente reactivo:</div>
+      <ul class="bullet-list">
+        <li>La intervención se solicita solo cuando ocurren fallas catastróficas: desbordamientos, malos olores o saturación total del campo de infiltración.</li>
+        <li>No existe visibilidad del estado interno del pozo sin apertura física, exponiendo a operarios a gases peligrosos (CH₄, H₂S).</li>
+        <li>La planificación de rutas de los camiones Vactor es completamente caótica e ineficiente.</li>
+        <li>Los costos de reparación de emergencia son impredecibles y devastadores para los propietarios.</li>
+      </ul>
+      <div class="stat-row" style="margin-top:16px">
+        <div class="stat-card">
+          <div class="stat-value">IoT</div>
+          <div class="stat-label">Solución tecnológica</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">SaaS</div>
+          <div class="stat-label">Modelo de negocio</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">85%</div>
+          <div class="stat-label">Intervención preventiva antes de este llenado</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">99.9%</div>
+          <div class="stat-label">Uptime objetivo de la plataforma</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 5: SECCION GENERALIDADES ======================== -->
+  <div class="slide layout-section">
+    <div class="slide-num">05 / 37</div>
+    <div class="left">
+      <span class="t-section-label">Sección 02</span>
+      <div class="t-big" style="font-size:clamp(2rem,6vw,5.5rem)">GENE<br>RALI<br>DADES</div>
+      <div class="accent-line"></div>
+      <div class="t-subtitle">Antecedentes, planteamiento del problema, objetivos y justificación del proyecto.</div>
+    </div>
+    <div class="right">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(0.8rem,1.8vw,1.5rem);color:rgba(255,255,255,0.4)">1.1 ANTECEDENTES</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(0.8rem,1.8vw,1.5rem);color:rgba(255,255,255,0.4)">1.2 PLANTEAMIENTO</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(0.8rem,1.8vw,1.5rem);color:rgba(255,255,255,0.4)">1.3 OBJETIVOS</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(0.8rem,1.8vw,1.5rem);color:rgba(255,255,255,0.4)">1.4 JUSTIFICACIÓN</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(0.8rem,1.8vw,1.5rem);color:rgba(255,255,255,0.4)">1.5 METODOLOGÍA</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 6: ANTECEDENTES ======================== -->
+  <div class="slide layout-content">
+    <div class="slide-num">06 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Generalidades — 1.1</span>
+      <div class="t-title">Antecedentes</div>
+    </div>
+    <div class="slide-body">
+      <div class="t-body" style="margin-bottom:12px">El contexto colombiano y global que sustenta la necesidad de esta empresa:</div>
+      <ul class="bullet-list">
+        <li><strong>Colombia:</strong> El Ministerio de Vivienda obliga soluciones individuales de saneamiento para viviendas fuera del perímetro urbano, sin acompañamiento post-instalación.</li>
+        <li><strong>Oriente Antioqueño:</strong> Crecimiento inmobiliario explosivo de parcelaciones campestres, clubes y bodegas ha multiplicado los pozos sépticos activos sin monitoreo.</li>
+        <li><strong>Riesgo de campo:</strong> La inspección convencional exige abrir las tapas físicamente, exponiendo a operarios a CH₄ y H₂S —gases asfixiantes y explosivos.</li>
+        <li><strong>Precedente global:</strong> Países industrializados ya aplican biosensores ultrasónicos en redes de alcantarillado. Transferir esta tecnología a sistemas sépticos individuales en LATAM es la oportunidad.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 7: PROBLEMA ======================== -->
+  <div class="slide layout-two-col">
+    <div class="slide-num dark">07 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Generalidades — 1.2</span>
+      <div class="t-title">Planteamiento del Problema</div>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.5rem,0.9vw,0.7rem);color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Descripción</div>
+        <div class="t-body" style="margin-bottom:10px">Cuando la acumulación de lodos supera el <strong>60%</strong> de la capacidad útil, el tiempo de retención hidráulica disminuye drásticamente y los sólidos contaminan el sistema de filtración secundaria de forma <strong>irreversible</strong>.</div>
+        <ul class="bullet-list">
+          <li>🌿 Impacto ambiental severo: afloración de aguas negras y contaminación de acuíferos</li>
+          <li>🏥 Riesgo para la salud pública: vectores biológicos y enfermedades gastrointestinales</li>
+          <li>💸 Altos costos correctivos: obras civiles de excavación y rutas caóticas de camiones</li>
+        </ul>
+      </div>
+      <div class="col" style="display:flex;flex-direction:column;justify-content:center;border-left:3px solid var(--light-gray);padding-left:5%">
+        <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.5rem,0.9vw,0.7rem);color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Formulación</div>
+        <div style="background:var(--off-white);border-left:4px solid var(--blue);border-radius:0 6px 6px 0;padding:14px;font-family:'DM Sans',sans-serif;font-size:clamp(0.5rem,0.95vw,0.74rem);color:#222;line-height:1.65;font-style:italic">
+          "¿De qué manera es posible estructurar y evaluar la viabilidad de un modelo de negocio de servicios de ingeniería que, mediante el uso de telemetría IoT y análisis de datos en la nube, optimice el mantenimiento predictivo de pozos sépticos en Antioquia?"
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 8: OBJETIVO GENERAL ======================== -->
+  <div class="slide layout-dark">
+    <div class="slide-num" style="color:rgba(255,255,255,0.3)">08 / 37</div>
+    <div class="deco-circle" style="width:300px;height:300px;bottom:-80px;right:-80px;"></div>
+    <span class="t-overline">Generalidades — 1.3.1</span>
+    <div class="t-big" style="font-size:clamp(1.2rem,3.5vw,3rem);margin:8px 0">OBJETIVO GENERAL</div>
+    <div class="accent-line"></div>
+    <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:20px 24px;margin-top:14px;max-width:700px">
+      <div class="t-body light" style="font-size:clamp(0.6rem,1.2vw,0.92rem);line-height:1.7">
+        Estructurar un plan de negocios definitivo para la <strong style="color:white">creación, formalización jurídica y puesta en marcha</strong> de la empresa INGENIERÍA DE GESTIÓN AMBIENTAL S.A.S., evaluando detalladamente su viabilidad <strong style="color:white">técnica, legal, organizativa y económica</strong> para proveer un servicio integral de monitoreo automatizado y mantenimiento preventivo de pozos sépticos basado en <strong style="color:#60a5fa">tecnología IoT y software en la nube</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 9: OBJETIVOS ESPECIFICOS ======================== -->
+  <div class="slide layout-content">
+    <div class="slide-num">09 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Generalidades — 1.3.2</span>
+      <div class="t-title">Objetivos Específicos</div>
+    </div>
+    <div class="slide-body">
+      <ul class="bullet-list">
+        <li>Determinar las especificaciones de ingeniería del hardware de telemetría, calibrando lecturas instrumentales bajo la constante gravitacional de <strong>9.8 m/s²</strong> para garantizar mediciones hidrostáticas precisas.</li>
+        <li>Establecer los requisitos legales y estatutos corporativos para la constitución formal como <strong>S.A.S.</strong> ante la Cámara de Comercio de Medellín.</li>
+        <li>Diseñar el modelo contable, presupuestal y de flujo de caja proyectado para demostrar la rentabilidad y asegurar un punto de equilibrio operativo en el corto plazo.</li>
+        <li>Definir la estructura organizativa completa, incluyendo manuales de funciones, responsabilidades y perfiles profesionales idóneos para garantizar la calidad del servicio.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 10: JUSTIFICACIÓN ======================== -->
+  <div class="slide layout-two-col">
+    <div class="slide-num dark">10 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Generalidades — 1.4</span>
+      <div class="t-title">Justificación del Trabajo</div>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <div class="icon-box" style="margin-bottom:12px">
+          <div class="icon-circle">⚙️</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.48rem,0.85vw,0.66rem);color:#111;margin-bottom:4px">PERSPECTIVA TÉCNICA</div>
+            <div class="t-body">Llena un vacío estructural en el mercado de la ingeniería sanitaria, transformando una infraestructura invisible en un activo gestionable con Dashboards y alertas automatizadas.</div>
+          </div>
+        </div>
+        <div class="icon-box">
+          <div class="icon-circle">💰</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.48rem,0.85vw,0.66rem);color:#111;margin-bottom:4px">PERSPECTIVA ECONÓMICA</div>
+            <div class="t-body">Sustituye costos correctivos impredecibles por suscripciones mensuales planificadas, estabilizando presupuestos de clientes y generando ingresos recurrentes (SaaS) para la empresa.</div>
+          </div>
+        </div>
+      </div>
+      <div class="col" style="border-left:3px solid var(--light-gray);padding-left:5%">
+        <div class="icon-box">
+          <div class="icon-circle">🌍</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.48rem,0.85vw,0.66rem);color:#111;margin-bottom:4px">PERSPECTIVA AMBIENTAL Y SOCIAL</div>
+            <div class="t-body">La optimización de rutas logísticas reduce emisiones de carbono. Al prevenir colapsos sépticos, se protegen los suelos y fuentes hídricas de Antioquia, alineándose con el <strong>ODS 6: Agua Limpia y Saneamiento</strong>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 11: METODOLOGÍA - FASES ======================== -->
+  <div class="slide layout-content" style="background:#0a0f1e">
+    <div class="slide-num" style="color:rgba(255,255,255,0.3)">11 / 37</div>
+    <div class="slide-header" style="background:#0a0f1e;padding-top:5%">
+      <span class="t-overline">Generalidades — 1.5</span>
+      <div class="t-title">Metodología de Trabajo — 5 Fases</div>
+    </div>
+    <div class="slide-body" style="padding-top:2%">
+      <div class="phase-grid">
+        <div class="phase-card">
+          <div class="phase-num">I</div>
+          <div class="phase-title">Diagnóstico y Reconocimiento</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.38rem,0.7vw,0.55rem);color:rgba(255,255,255,0.5);line-height:1.5">Levantamiento físico de pozos y tasas de acumulación de lodos.</div>
+        </div>
+        <div class="phase-card">
+          <div class="phase-num">II</div>
+          <div class="phase-title">Análisis y Modelado Físico</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.38rem,0.7vw,0.55rem);color:rgba(255,255,255,0.5);line-height:1.5">Variables críticas de medición. Algoritmos bajo g = 9.8 m/s².</div>
+        </div>
+        <div class="phase-card">
+          <div class="phase-num">III</div>
+          <div class="phase-title">Diseño de Ingeniería Cloud</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.38rem,0.7vw,0.55rem);color:rgba(255,255,255,0.5);line-height:1.5">Hardware IP68, sensores ultrasónicos, software de monitoreo y suscripciones.</div>
+        </div>
+        <div class="phase-card">
+          <div class="phase-num">IV</div>
+          <div class="phase-title">Implementación Logística</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.38rem,0.7vw,0.55rem);color:rgba(255,255,255,0.5);line-height:1.5">Instalación de dispositivos IoT en comodato. Activación de alertas y enrutamiento de flota.</div>
+        </div>
+        <div class="phase-card">
+          <div class="phase-num">V</div>
+          <div class="phase-title">Evaluación de Viabilidad</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.38rem,0.7vw,0.55rem);color:rgba(255,255,255,0.5);line-height:1.5">Auditoría de costos, balances y certificación de vertimientos ante plantas autorizadas.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 12: SECCIÓN ESTUDIO TÉCNICO ======================== -->
+  <div class="slide layout-section">
+    <div class="slide-num">12 / 37</div>
+    <div class="left">
+      <span class="t-section-label">Sección 03</span>
+      <div class="t-big" style="font-size:clamp(1.8rem,5vw,4.5rem)">ESTUDIO<br>TÉCNICO<br>DE LA<br>EMPRESA</div>
+      <div class="accent-line"></div>
+      <div class="t-subtitle">Descripción corporativa, misión, visión, valores y estructura organizacional.</div>
+    </div>
+    <div class="right">
+      <div style="text-align:center">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,7rem);color:rgba(255,255,255,0.08);line-height:1">IGA</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.42rem,0.8vw,0.62rem);color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase">Ingeniería de Gestión Ambiental</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 13: DESCRIPCIÓN EMPRESA ======================== -->
+  <div class="slide layout-content">
+    <div class="slide-num">13 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estudio Técnico — 2.1</span>
+      <div class="t-title">Descripción de la Empresa</div>
+    </div>
+    <div class="slide-body">
+      <div class="t-body" style="margin-bottom:14px">INGENIERÍA DE GESTIÓN AMBIENTAL S.A.S. es una empresa de base tecnológica (Startup) constituida legalmente en Medellín, orientada al sector del saneamiento e ingeniería ambiental.</div>
+      <div class="stat-row">
+        <div class="stat-card white">
+          <div class="stat-value dark">Hardware</div>
+          <div class="stat-label dark">Infraestructura de medición de fluidos IoT</div>
+        </div>
+        <div class="stat-card white">
+          <div class="stat-value dark">Software</div>
+          <div class="stat-label dark">Plataforma predictiva en la nube (SaaS)</div>
+        </div>
+        <div class="stat-card white">
+          <div class="stat-value dark">Logística</div>
+          <div class="stat-label dark">Flota vehicular de succión especializada</div>
+        </div>
+      </div>
+      <div class="t-body" style="margin-top:14px">Enfoque principal en el <strong>monitoreo preventivo de pozos sépticos</strong> residenciales y corporativos en zonas sin cobertura de alcantarillado en el departamento de Antioquia.</div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 14: MISIÓN Y VISIÓN ======================== -->
+  <div class="slide layout-two-col">
+    <div class="slide-num dark">14 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estudio Técnico — 2.1.1 / 2.1.2</span>
+      <div class="t-title">Misión y Visión</div>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <div style="background:var(--blue);border-radius:8px;padding:16px;height:100%;box-sizing:border-box">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,2.5vw,2rem);color:white;margin-bottom:6px">MISIÓN</div>
+          <div class="t-body light">Transformar y modernizar la gestión operativa de los sistemas de tratamiento de aguas residuales independientes en Colombia mediante el uso de <strong style="color:white">tecnologías de automatización y telemetría avanzada</strong>. Brindamos tranquilidad absoluta, eficiencia económica y excelencia en el servicio de campo, protegiendo el equilibrio ecológico del suelo y las fuentes hídricas subterráneas.</div>
+        </div>
+      </div>
+      <div class="col">
+        <div style="background:var(--off-white);border-radius:8px;padding:16px;height:100%;box-sizing:border-box;border:2px solid var(--light-gray)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1rem,2.5vw,2rem);color:var(--blue);margin-bottom:6px">VISIÓN 2030</div>
+          <div class="t-body">Para el año <strong>2030</strong>, IGA S.A.S. se consolidará como el referente tecnológico líder a nivel nacional en la gestión y digitalización de infraestructuras sanitarias descentralizadas.</div>
+          <div class="stat-row" style="margin-top:12px">
+            <div class="stat-card">
+              <div class="stat-value">10K+</div>
+              <div class="stat-label">Pozos inteligentes monitoreados</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 15: OBJETIVOS DE CALIDAD ======================== -->
+  <div class="slide layout-content">
+    <div class="slide-num">15 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estudio Técnico — 2.1.3</span>
+      <div class="t-title">Objetivos de Calidad</div>
+    </div>
+    <div class="slide-body">
+      <ul class="bullet-list">
+        <li>Mantener la precisión del sistema de medición ultrasónica con un <strong>margen de error inferior al 3%</strong>, asegurado mediante calibración constante bajo g = 9.8 m/s².</li>
+        <li>Garantizar un índice de disponibilidad (Uptime) de la plataforma en la nube y la app del usuario del <strong>99.9% anual</strong>.</li>
+        <li>Asegurar que el <strong>100%</strong> de los mantenimientos preventivos se ejecuten antes de que el pozo alcance el <strong>85% de su capacidad volumétrica máxima</strong>, erradicando desbordamientos imprevistos.</li>
+        <li>Lograr un nivel de satisfacción del cliente superior al <strong>95%</strong> en las encuestas post-servicio logístico.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 16: VALORES CORPORATIVOS ======================== -->
+  <div class="slide layout-content" style="background:#0a0f1e">
+    <div class="slide-num" style="color:rgba(255,255,255,0.3)">16 / 37</div>
+    <div class="slide-header" style="background:var(--dark-blue)">
+      <span class="t-overline">Estudio Técnico — 2.1.5</span>
+      <div class="t-title">Valores Corporativos</div>
+    </div>
+    <div class="slide-body" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4% 7%">
+      <div class="phase-card">
+        <div style="font-size:1.4rem">💡</div>
+        <div class="phase-title">Innovación Tecnológica</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.42rem,0.78vw,0.6rem);color:rgba(255,255,255,0.6);line-height:1.5">Optimización constante de hardware y software para soluciones disruptivas de valor real.</div>
+      </div>
+      <div class="phase-card">
+        <div style="font-size:1.4rem">🌱</div>
+        <div class="phase-title">Responsabilidad Ambiental</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.42rem,0.78vw,0.6rem);color:rgba(255,255,255,0.6);line-height:1.5">Compromiso ético absoluto con la protección del entorno y correcta disposición de lodos.</div>
+      </div>
+      <div class="phase-card">
+        <div style="font-size:1.4rem">📐</div>
+        <div class="phase-title">Precisión Técnica</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.42rem,0.78vw,0.6rem);color:rgba(255,255,255,0.6);line-height:1.5">Decisiones operativas e ingenieriles basadas en datos precisos y métodos científicos rigurosos.</div>
+      </div>
+      <div class="phase-card">
+        <div style="font-size:1.4rem">🔍</div>
+        <div class="phase-title">Transparencia</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.42rem,0.78vw,0.6rem);color:rgba(255,255,255,0.6);line-height:1.5">Canales de comunicación claros con clientes, proveedores y autoridades. Información veraz y verificable.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 17: RESPONSABILIDAD SOCIAL ======================== -->
+  <div class="slide layout-content">
+    <div class="slide-num">17 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estudio Técnico — 2.1.6</span>
+      <div class="t-title">Responsabilidad Social y Sostenibilidad</div>
+    </div>
+    <div class="slide-body">
+      <div class="t-body" style="margin-bottom:14px">IGA S.A.S. opera bajo un esquema de <strong>economía circular</strong> y mitigación de impactos negativos, alineada con los <strong>Objetivos de Desarrollo Sostenible (ODS 6)</strong>.</div>
+      <ul class="bullet-list">
+        <li>Programas activos de capacitación y concientización sobre uso responsable del agua en condominios y parcelaciones.</li>
+        <li>El 100% de los residuos biológicos recolectados son entregados en plantas autorizadas para su transformación en <strong>abono orgánico estabilizado</strong>.</li>
+        <li>Optimización de rutas logísticas que reduce significativamente las emisiones de carbono del transporte pesado.</li>
+        <li>Alineación directa con las metas de las autoridades ambientales de Corantioquia y el Área Metropolitana del Valle de Aburrá.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 18: ORGANIGRAMA ======================== -->
+  <div class="slide layout-content" style="background:#0a0f1e">
+    <div class="slide-num" style="color:rgba(255,255,255,0.3)">18 / 37</div>
+    <div class="slide-header" style="background:var(--dark-blue)">
+      <span class="t-overline">Estudio Técnico — 2.2.2</span>
+      <div class="t-title">Estructura Organizacional</div>
+    </div>
+    <div class="slide-body" style="align-items:center">
+      <div class="org-chart">
+        <div class="org-box top">🏛️ Asamblea General de Accionistas</div>
+        <div class="org-line"></div>
+        <div class="org-box" style="background:var(--blue)">👔 Gerencia General (CEO)</div>
+        <div class="org-line"></div>
+        <div class="org-row">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+            <div class="org-box" style="font-size:clamp(0.38rem,0.7vw,0.55rem)">📦 Dir. Operativa y Logística (COO)</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+            <div class="org-box" style="font-size:clamp(0.38rem,0.7vw,0.55rem)">💻 Dir. de Tecnología (CTO)</div>
+          </div>
+        </div>
+        <div class="org-line"></div>
+        <div class="org-box" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);font-size:clamp(0.38rem,0.7vw,0.55rem)">🔧 Cuadrilla de Campo y Mantenimiento</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 19: DESCRIPCIÓN DE CARGOS ======================== -->
+  <div class="slide layout-content">
+    <div class="slide-num">19 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estudio Técnico — 2.2.3</span>
+      <div class="t-title">Descripción de Cargos Clave</div>
+    </div>
+    <div class="slide-body" style="gap:10px">
+      <div class="legal-item">
+        <div class="legal-tag">CEO</div>
+        <div class="t-body"><strong>Ingeniero/Administrador + MBA.</strong> Representación legal, decisiones financieras corporativas y negociación de contratos a gran escala.</div>
+      </div>
+      <div class="legal-item">
+        <div class="legal-tag">CTO</div>
+        <div class="t-body"><strong>Ing. de Sistemas/Electrónico/Mecatrónico con experiencia en AWS/GCP e IoT.</strong> Firmware de sensores, calibración bajo g = 9.8 m/s² y ciberseguridad de servidores.</div>
+      </div>
+      <div class="legal-item">
+        <div class="legal-tag">COO</div>
+        <div class="t-body"><strong>Profesional en logística y gestión ambiental.</strong> Enrutamiento de vehículos Vactor, programación de mantenimientos y cumplimiento normativo ambiental.</div>
+      </div>
+      <div class="legal-item" style="border-bottom:none">
+        <div class="legal-tag">CAMPO</div>
+        <div class="t-body"><strong>Técnico en saneamiento con licencia C2.</strong> Instalación de dispositivos IoT, manejo de mangueras de succión y operación de camiones cisterna.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 20: SECCIÓN LEGAL ======================== -->
+  <div class="slide layout-section">
+    <div class="slide-num">20 / 37</div>
+    <div class="left">
+      <span class="t-section-label">Sección 04</span>
+      <div class="t-big" style="font-size:clamp(1.5rem,4.5vw,4rem)">ESTUDIO<br>LEGAL Y<br>CONSTI<br>TUCIÓN</div>
+      <div class="accent-line"></div>
+      <div class="t-subtitle">Marco jurídico, constitución S.A.S., estatutos y RUT de la empresa.</div>
+    </div>
+    <div class="right" style="flex-direction:column;gap:8px;justify-content:center">
+      <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.38rem,0.72vw,0.56rem);color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase">Marco normativo</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.48rem,0.9vw,0.7rem);color:rgba(255,255,255,0.7)">📋 Ley 1258 de 2008 — S.A.S.</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.48rem,0.9vw,0.7rem);color:rgba(255,255,255,0.7)">🏛️ Cámara de Comercio de Medellín</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.48rem,0.9vw,0.7rem);color:rgba(255,255,255,0.7)">💼 DIAN — NIT provisional</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.48rem,0.9vw,0.7rem);color:rgba(255,255,255,0.7)">🌿 Normativa Corantioquia</div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 21: REQUISITOS CONSTITUCIÓN ======================== -->
+  <div class="slide layout-content">
+    <div class="slide-num">21 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estudio Legal — 3.1</span>
+      <div class="t-title">Requisitos para la Constitución</div>
+    </div>
+    <div class="slide-body">
+      <ul class="bullet-list">
+        <li><strong>Consulta de homonimia (RUES):</strong> Verificación en el Registro Único Empresarial y Social que no existan razones sociales idénticas o similares.</li>
+        <li><strong>Clasificación CIIU:</strong> Código principal <strong>3700</strong> (Tratamiento de aguas residuales), secundario <strong>6201</strong> (Desarrollo de software y plataformas nube), auxiliar <strong>7110</strong> (Consultoría técnica de ingeniería).</li>
+        <li><strong>Documento privado de constitución:</strong> La S.A.S. no requiere escritura pública ante notaría (salvo aporte de inmuebles), reduciendo significativamente los costos de formalización.</li>
+        <li><strong>Registro mercantil:</strong> Inscripción ante la Cámara de Comercio de Medellín para Antioquia para adquirir personería jurídica plena.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 22: S.A.S. ======================== -->
+  <div class="slide layout-dark">
+    <div class="slide-num" style="color:rgba(255,255,255,0.3)">22 / 37</div>
+    <span class="t-overline">Estudio Legal — 3.2</span>
+    <div class="t-big" style="font-size:clamp(1.5rem,4vw,3.5rem);margin:8px 0">¿POR QUÉ<br>UNA S.A.S.?</div>
+    <div class="accent-line"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+      <div class="phase-card">
+        <div style="font-size:1.2rem">🛡️</div>
+        <div class="phase-title">Protección Patrimonial</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.42rem,0.78vw,0.6rem);color:rgba(255,255,255,0.6);line-height:1.5">Responsabilidad limitada al monto de aportes suscritos. Patrimonio personal de los fundadores blindado.</div>
+      </div>
+      <div class="phase-card">
+        <div style="font-size:1.2rem">📄</div>
+        <div class="phase-title">Constitución Simplificada</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.42rem,0.78vw,0.6rem);color:rgba(255,255,255,0.6);line-height:1.5">Documento privado sin escritura notarial. Menor costo y tiempo de formalización para Startups.</div>
+      </div>
+      <div class="phase-card">
+        <div style="font-size:1.2rem">📈</div>
+        <div class="phase-title">Atracción de Inversión</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.42rem,0.78vw,0.6rem);color:rgba(255,255,255,0.6);line-height:1.5">Estructura ideal para capital semilla de fondos GreenTech e inversionistas de tecnologías verdes.</div>
+      </div>
+      <div class="phase-card">
+        <div style="font-size:1.2rem">⚡</div>
+        <div class="phase-title">Agilidad Operativa</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.42rem,0.78vw,0.6rem);color:rgba(255,255,255,0.6);line-height:1.5">Regulada por la Ley 1258 de 2008. Flexibilidad en la toma de decisiones y estructura de capital.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 23: ESTATUTOS ======================== -->
+  <div class="slide layout-content">
+    <div class="slide-num">23 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estudio Legal — 3.4</span>
+      <div class="t-title">Estatutos Sociales — Artículos Fundamentales</div>
+    </div>
+    <div class="slide-body">
+      <div class="legal-item">
+        <div class="legal-tag">Art. 1</div>
+        <div class="t-body"><strong>Denominación:</strong> INGENIERÍA DE GESTIÓN AMBIENTAL S.A.S.</div>
+      </div>
+      <div class="legal-item">
+        <div class="legal-tag">Art. 2</div>
+        <div class="t-body"><strong>Domicilio:</strong> Medellín. Sucursales logísticas en municipios del Oriente Antioqueño.</div>
+      </div>
+      <div class="legal-item">
+        <div class="legal-tag">Art. 3</div>
+        <div class="t-body"><strong>Duración:</strong> Término indefinido, garantizando continuidad de contratos de suscripción.</div>
+      </div>
+      <div class="legal-item">
+        <div class="legal-tag">Art. 4</div>
+        <div class="t-body"><strong>Objeto Social:</strong> Diseño, desarrollo, importación y comercialización de hardware IoT; desarrollo de software predictivo; evacuación, transporte y disposición de lodos de pozos sépticos.</div>
+      </div>
+      <div class="legal-item" style="border-bottom:none">
+        <div class="legal-tag">Art. 5</div>
+        <div class="t-body"><strong>Capital:</strong> Capital autorizado inicial de <strong>$354.000.000 COP</strong> en acciones ordinarias de igual valor nominal.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 24: RUT ======================== -->
+  <div class="slide layout-two-col">
+    <div class="slide-num dark">24 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estudio Legal — 3.5</span>
+      <div class="t-title">Registro Único Tributario (RUT)</div>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <div class="t-body" style="margin-bottom:12px">Mecanismo de la DIAN para identificar, ubicar y clasificar a los sujetos de obligaciones tributarias en Colombia.</div>
+        <div class="legal-item">
+          <div class="legal-tag">NIT</div>
+          <div class="t-body">901.888.444-5 (provisional)</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-tag">CIIU P.</div>
+          <div class="t-body">3700 — Evacuación y tratamiento de aguas</div>
+        </div>
+        <div class="legal-item">
+          <div class="legal-tag">CIIU S.</div>
+          <div class="t-body">6201 — Desarrollo de software y nube</div>
+        </div>
+        <div class="legal-item" style="border-bottom:none">
+          <div class="legal-tag">CIIU A.</div>
+          <div class="t-body">7110 — Consultoría técnica de ingeniería</div>
+        </div>
+      </div>
+      <div class="col" style="border-left:3px solid var(--light-gray);padding-left:5%">
+        <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.48rem,0.85vw,0.66rem);color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Responsabilidades Tributarias</div>
+        <ul class="bullet-list">
+          <li>Código 05: Impuesto sobre la renta y complementarios (Régimen Ordinario)</li>
+          <li>Código 07: Retención en la fuente a título de renta</li>
+          <li>Código 42: Obligado a llevar contabilidad</li>
+          <li>Código 48: Responsable del IVA — Facturación electrónica</li>
+          <li>ICA: Impuesto de Industria y Comercio ante hacienda de Medellín</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 25: SECCIÓN FINANCIERA ======================== -->
+  <div class="slide layout-section">
+    <div class="slide-num">25 / 37</div>
+    <div class="left">
+      <span class="t-section-label">Sección 05</span>
+      <div class="t-big" style="font-size:clamp(1.5rem,4.5vw,4rem)">ESTRUC<br>TURA<br>ECONÓ<br>MICA</div>
+      <div class="accent-line"></div>
+      <div class="t-subtitle">Inversión inicial, gastos fijos, flujo de caja y estados financieros proyectados.</div>
+    </div>
+    <div class="right" style="flex-direction:column;justify-content:center;gap:12px">
+      <div class="stat-card light">
+        <div class="stat-value">$354M</div>
+        <div class="stat-label">CAPEX Total Requerido</div>
+      </div>
+      <div class="stat-card light">
+        <div class="stat-value">$35M</div>
+        <div class="stat-label">OPEX Mensual Fijo</div>
+      </div>
+      <div class="stat-card light">
+        <div class="stat-value">$144M</div>
+        <div class="stat-label">Utilidad Neta Proyectada Año 1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 26: CAPEX - COSTOS DE INVERSIÓN ======================== -->
+  <div class="slide layout-table">
+    <div class="slide-num dark">26 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estructura Económica — 4.1</span>
+      <div class="t-title">Costos de Inversión Inicial (CAPEX)</div>
+    </div>
+    <div class="slide-body">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Concepto de Inversión Inicial</th>
+            <th style="text-align:right;white-space:nowrap">Valor (COP)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Constitución formal, registros mercantiles e inscripciones legales</td><td style="text-align:right;white-space:nowrap">$ 8.000.000</td></tr>
+          <tr><td>Licencias de software corporativo y permisos sanitarios / ambientales CAR</td><td style="text-align:right;white-space:nowrap">$ 6.000.000</td></tr>
+          <tr><td>Equipos de cómputo de alta gama y servidores locales de TI</td><td style="text-align:right;white-space:nowrap">$ 25.000.000</td></tr>
+          <tr><td>Manufactura y componentes para lote inicial de 300 sensores IoT</td><td style="text-align:right;white-space:nowrap">$ 70.000.000</td></tr>
+          <tr><td>Desarrollo de software a medida: plataforma web y aplicación móvil</td><td style="text-align:right;white-space:nowrap">$ 60.000.000</td></tr>
+          <tr><td>Anticipo y enganche para contrato de Leasing de Camión Vactor</td><td style="text-align:right;white-space:nowrap">$ 120.000.000</td></tr>
+          <tr><td>Fondo líquido de reserva — capital de trabajo primeros meses</td><td style="text-align:right;white-space:nowrap">$ 65.000.000</td></tr>
+          <tr class="total-row"><td class="total">TOTAL INVERSIÓN INICIAL REQUERIDA (CAPEX)</td><td style="text-align:right;white-space:nowrap" class="total">$ 354.000.000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 27: OPEX - GASTOS FIJOS ======================== -->
+  <div class="slide layout-table">
+    <div class="slide-num dark">27 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estructura Económica — 4.2</span>
+      <div class="t-title">Gastos Fijos Operativos Mensuales (OPEX)</div>
+    </div>
+    <div class="slide-body">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Descripción del Gasto Fijo Operativo</th>
+            <th style="text-align:right;white-space:nowrap">Valor Mensual (COP)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Arrendamiento de patio-taller logístico y oficinas administrativas</td><td style="text-align:right;white-space:nowrap">$ 4.500.000</td></tr>
+          <tr><td>Nómina administrativa fija, gerencial y de soporte técnico</td><td style="text-align:right;white-space:nowrap">$ 14.500.000</td></tr>
+          <tr><td>Nómina operativa de campo (Conductor especializado + auxiliar)</td><td style="text-align:right;white-space:nowrap">$ 5.500.000</td></tr>
+          <tr><td>Canon mensual de financiamiento por contrato de Leasing vehicular</td><td style="text-align:right;white-space:nowrap">$ 6.800.000</td></tr>
+          <tr><td>Conectividad IoT M2M e infraestructura de servidores AWS</td><td style="text-align:right;white-space:nowrap">$ 1.500.000</td></tr>
+          <tr><td>Pólizas de seguro, marketing digital y pauta comercial</td><td style="text-align:right;white-space:nowrap">$ 2.200.000</td></tr>
+          <tr class="total-row"><td class="total">TOTAL GASTOS FIJOS OPERATIVOS MENSUALES (OPEX)</td><td style="text-align:right;white-space:nowrap" class="total">$ 35.000.000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 28: INVERSIONES ADECUACIÓN ======================== -->
+  <div class="slide layout-table">
+    <div class="slide-num dark">28 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estructura Económica — 4.3</span>
+      <div class="t-title">Inversiones de Funcionamiento y Adecuaciones</div>
+    </div>
+    <div class="slide-body" style="justify-content:flex-start;padding-top:4%">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Detalle de Adecuación e Instrumental</th>
+            <th style="text-align:right;white-space:nowrap">Monto (COP)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Obras civiles de adecuación del patio logístico y trampas de grasas</td><td style="text-align:right;white-space:nowrap">$ 20.000.000</td></tr>
+          <tr><td>Mangueras de succión reforzadas 4", acoples rápidos y bombas periféricas</td><td style="text-align:right;white-space:nowrap">$ 40.000.000</td></tr>
+          <tr><td>SG-SST: Arneses de rescate, medidores de gas portátiles y EPP industrial</td><td style="text-align:right;white-space:nowrap">$ 15.000.000</td></tr>
+          <tr class="total-row"><td class="total">TOTAL INVERSIONES EN ADECUACIÓN</td><td style="text-align:right;white-space:nowrap" class="total">$ 75.000.000</td></tr>
+        </tbody>
+      </table>
+      <div class="t-body" style="margin-top:16px;color:var(--gray)">Esta inversión permite cumplir los estándares de seguridad industrial para espacios confinados y garantiza la operación técnica de la bodega logística.</div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 29: FLUJO DE CAJA ======================== -->
+  <div class="slide layout-table">
+    <div class="slide-num dark">29 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estructura Económica — 4.4</span>
+      <div class="t-title">Flujo de Caja — Primer Semestre Operativo</div>
+    </div>
+    <div class="slide-body">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Mes Operativo</th>
+            <th style="text-align:right">Ingresos (COP)</th>
+            <th style="text-align:right">Egresos (COP)</th>
+            <th style="text-align:right;background:#0f2fa3">Utilidad Mensual</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Mes 1 — Enero</td><td style="text-align:right">$ 45.000.000</td><td style="text-align:right">$ 42.000.000</td><td style="text-align:right;color:var(--blue);font-weight:700">$ 3.000.000</td></tr>
+          <tr><td>Mes 2 — Febrero</td><td style="text-align:right">$ 55.000.000</td><td style="text-align:right">$ 44.500.000</td><td style="text-align:right;color:var(--blue);font-weight:700">$ 10.500.000</td></tr>
+          <tr><td>Mes 3 — Marzo</td><td style="text-align:right">$ 70.000.000</td><td style="text-align:right">$ 46.500.000</td><td style="text-align:right;color:var(--blue);font-weight:700">$ 23.500.000</td></tr>
+          <tr><td>Mes 4 — Abril</td><td style="text-align:right">$ 85.000.000</td><td style="text-align:right">$ 50.000.000</td><td style="text-align:right;color:var(--blue);font-weight:700">$ 35.000.000</td></tr>
+          <tr><td>Mes 5 — Mayo</td><td style="text-align:right">$ 95.000.000</td><td style="text-align:right">$ 52.000.000</td><td style="text-align:right;color:var(--blue);font-weight:700">$ 43.000.000</td></tr>
+          <tr><td>Mes 6 — Junio</td><td style="text-align:right">$ 110.000.000</td><td style="text-align:right">$ 54.500.000</td><td style="text-align:right;color:var(--blue);font-weight:700">$ 55.500.000</td></tr>
+        </tbody>
+      </table>
+      <div class="t-body" style="margin-top:10px;color:var(--gray)">Ingresos = Suscripciones SaaS ($50.000/nodo/mes) + Servicios de evacuación ($450.000/servicio). La curva muestra maduración comercial progresiva.</div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 30: ESTADO DE RESULTADOS ======================== -->
+  <div class="slide layout-table">
+    <div class="slide-num dark">30 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estructura Económica — 4.5</span>
+      <div class="t-title">Estado de Resultados Proyectado — Año 1 (2026)</div>
+    </div>
+    <div class="slide-body">
+      <table class="data-table">
+        <thead>
+          <tr><th colspan="2">INGENIERÍA DE GESTIÓN AMBIENTAL S.A.S. — Al 31 de diciembre de 2026</th></tr>
+        </thead>
+        <tbody>
+          <tr class="total-row"><td class="total">Ventas Brutas Totales (SaaS + Servicios Físicos)</td><td style="text-align:right" class="total">$ 980.000.000</td></tr>
+          <tr><td style="padding-left:20px">(-) Devoluciones, descuentos y garantías de hardware</td><td style="text-align:right">$ 18.000.000</td></tr>
+          <tr class="total-row"><td class="total">Ingresos Netos Reales por Ventas</td><td style="text-align:right" class="total">$ 962.000.000</td></tr>
+          <tr><td style="padding-left:20px">(-) Costos directos de operación</td><td style="text-align:right">$ 285.000.000</td></tr>
+          <tr class="total-row"><td class="total">UTILIDAD BRUTA OPERACIONAL</td><td style="text-align:right" class="total">$ 677.000.000</td></tr>
+          <tr><td style="padding-left:20px">(-) Gastos operacionales, administrativos y depreciación</td><td style="text-align:right">$ 455.000.000</td></tr>
+          <tr class="total-row"><td class="total">UTILIDAD ANTES DE IMPUESTOS (UAI)</td><td style="text-align:right" class="total">$ 222.000.000</td></tr>
+          <tr><td style="padding-left:20px">(-) Impuesto sobre la Renta (35% s/ UAI)</td><td style="text-align:right">$ 77.700.000</td></tr>
+          <tr class="total-row"><td class="total" style="color:var(--dark-blue);font-size:1.05em">✅ UTILIDAD NETA DISPONIBLE DEL EJERCICIO</td><td style="text-align:right" class="total" style="color:var(--dark-blue)">$ 144.300.000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 31: BALANCE GENERAL ======================== -->
+  <div class="slide layout-content">
+    <div class="slide-num">31 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estructura Económica — 4.5</span>
+      <div class="t-title">Balance General — Análisis Vertical</div>
+    </div>
+    <div class="slide-body">
+      <div style="display:flex;gap:5%;margin-bottom:14px">
+        <div style="flex:1">
+          <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.48rem,0.85vw,0.66rem);color:var(--blue);text-transform:uppercase;margin-bottom:8px">Activos Totales — $429M</div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="background:var(--blue);height:22px;border-radius:3px;flex:0.6736;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.38rem,0.68vw,0.52rem);color:white">67.36%</div>
+              <div class="t-body">No Corriente (maquinaria, software, hardware) — $289M</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="background:var(--light-blue);height:22px;border-radius:3px;flex:0.3264;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.38rem,0.68vw,0.52rem);color:white">32.64%</div>
+              <div class="t-body">Corriente (caja, bancos, inventario) — $140M</div>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1">
+          <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.48rem,0.85vw,0.66rem);color:var(--blue);text-transform:uppercase;margin-bottom:8px">Financiamiento</div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="background:var(--blue);height:22px;border-radius:3px;flex:0.6737;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.38rem,0.68vw,0.52rem);color:white">67.37%</div>
+              <div class="t-body">Patrimonio Neto — $289M</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="background:#ef4444;height:22px;border-radius:3px;flex:0.3263;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.38rem,0.68vw,0.52rem);color:white">32.63%</div>
+              <div class="t-body">Pasivo Total (corto + largo plazo) — $140M</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 32: INDICADORES FINANCIEROS ======================== -->
+  <div class="slide layout-content">
+    <div class="slide-num">32 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Estructura Económica — 4.5</span>
+      <div class="t-title">Indicadores y Ratios de Viabilidad</div>
+    </div>
+    <div class="slide-body">
+      <div class="stat-row" style="flex-wrap:wrap;gap:10px">
+        <div class="stat-card white" style="flex:1;min-width:140px">
+          <div class="stat-value dark" style="font-size:clamp(1.5rem,3.5vw,3rem)">0.48</div>
+          <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.42rem,0.78vw,0.6rem);color:var(--blue);text-transform:uppercase;margin-bottom:4px">Ratio de Endeudamiento</div>
+          <div class="t-body">$0.48 de deuda por cada $1 de patrimonio. Muy por debajo del límite crítico de riesgo (1.0).</div>
+        </div>
+        <div class="stat-card white" style="flex:1;min-width:140px">
+          <div class="stat-value dark" style="font-size:clamp(1.5rem,3.5vw,3rem)">3.11</div>
+          <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.42rem,0.78vw,0.6rem);color:var(--blue);text-transform:uppercase;margin-bottom:4px">Liquidez Corriente</div>
+          <div class="t-body">$3.11 pesos líquidos disponibles por cada $1 de deuda corriente. Excelente capacidad de cobertura.</div>
+        </div>
+        <div class="stat-card white" style="flex:1;min-width:140px">
+          <div class="stat-value dark" style="font-size:clamp(1rem,2.5vw,2.2rem)">$95M</div>
+          <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:clamp(0.42rem,0.78vw,0.6rem);color:var(--blue);text-transform:uppercase;margin-bottom:4px">Capital de Trabajo Neto</div>
+          <div class="t-body">Activo Corriente – Pasivo Corriente. Garantiza operaciones sin tensiones de liquidez ni financiamiento de emergencia.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 33: SECCIÓN CONCLUSIONES ======================== -->
+  <div class="slide layout-section">
+    <div class="slide-num">33 / 37</div>
+    <div class="left">
+      <span class="t-section-label">Sección 06</span>
+      <div class="t-big" style="font-size:clamp(2rem,6vw,5.5rem)">CONCLU<br>SIONES</div>
+      <div class="accent-line"></div>
+      <div class="t-subtitle">Hallazgos principales que validan la viabilidad del proyecto empresarial.</div>
+    </div>
+    <div class="right" style="flex-direction:column;justify-content:center;gap:10px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,6vw,5rem);color:rgba(255,255,255,0.08)">4</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.48rem,0.9vw,0.7rem);color:rgba(255,255,255,0.6)">conclusiones clave demuestran la factibilidad técnica, financiera, legal y operativa del proyecto.</div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 34: CONCLUSIONES DETALLE ======================== -->
+  <div class="slide layout-dark">
+    <div class="slide-num" style="color:rgba(255,255,255,0.3)">34 / 37</div>
+    <span class="t-overline">Conclusiones</span>
+    <div class="t-title" style="margin:6px 0">Hallazgos del Estudio de Factibilidad</div>
+    <div class="accent-line"></div>
+    <div style="display:flex;flex-direction:column;margin-top:12px;gap:0">
+      <div class="conclusion-item">
+        <div class="conclusion-num">01</div>
+        <div class="t-body light">La integración de <strong style="color:white">hardware IoT en el sector de la ingeniería sanitaria</strong> soluciona un problema crítico de ceguera operativa, generando un mercado cautivo de alta fidelización a través del modelo SaaS.</div>
+      </div>
+      <div class="conclusion-item">
+        <div class="conclusion-num">02</div>
+        <div class="t-body light">La estructura financiera arroja indicadores de alta seguridad de inversión: <strong style="color:white">liquidez corriente de 3.11</strong> y capital de trabajo neto de $95M, blindando el flujo de caja desde el primer año.</div>
+      </div>
+      <div class="conclusion-item">
+        <div class="conclusion-num">03</div>
+        <div class="t-body light">El cumplimiento estricto de calibraciones bajo <strong style="color:white">g = 9.8 m/s²</strong> eleva el estándar técnico del servicio, eliminando fallas instrumentales comunes en la competencia informal.</div>
+      </div>
+      <div class="conclusion-item" style="border-bottom:none">
+        <div class="conclusion-num">04</div>
+        <div class="t-body light">La adopción del modelo <strong style="color:white">S.A.S. bajo la Ley 1258 de 2008</strong> proporciona protección patrimonial óptima y atractivo jurídico para futuros inversionistas de capital semilla GreenTech.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 35: RECOMENDACIONES ======================== -->
+  <div class="slide layout-content">
+    <div class="slide-num">35 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Sección 07</span>
+      <div class="t-title">Recomendaciones Estratégicas</div>
+    </div>
+    <div class="slide-body">
+      <ul class="bullet-list">
+        <li><strong>Convenios B2B con constructoras:</strong> Priorizar alianzas con empresas de desarrollos campestres para incorporar la red de sensores desde la fase de diseño inicial, asegurando expansión rápida de suscriptores.</li>
+        <li><strong>Machine Learning a mediano plazo:</strong> Desarrollar módulos de ML en la nube para cruzar datos históricos de llenado con variables climáticas de pluviosidad, refinando los algoritmos predictivos.</li>
+        <li><strong>Contratos indexados de disposición:</strong> Firmar acuerdos de tarifa indexada a largo plazo con plantas de tratamiento autorizadas para blindar el margen bruto ante incrementos regulatorios de las CAR.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 36: REFERENCIAS ======================== -->
+  <div class="slide layout-content">
+    <div class="slide-num">36 / 37</div>
+    <div class="slide-header">
+      <span class="t-overline">Sección 08</span>
+      <div class="t-title">Referencias Bibliográficas</div>
+    </div>
+    <div class="slide-body" style="gap:10px">
+      <div class="legal-item">
+        <div class="legal-tag" style="flex-shrink:0">REF 1</div>
+        <div class="t-body">Cámara de Comercio de Medellín para Antioquia. (2024). <em>Guía para la constitución y registro de Sociedades por Acciones Simplificadas (S.A.S.).</em> Medellín, Colombia.</div>
+      </div>
+      <div class="legal-item">
+        <div class="legal-tag" style="flex-shrink:0">REF 2</div>
+        <div class="t-body">Congreso de la República de Colombia. (2008). <em>Ley 1258 de 2008: Por medio de la cual se crea la Sociedad por Acciones Simplificada.</em> Diario Oficial No. 47.194.</div>
+      </div>
+      <div class="legal-item">
+        <div class="legal-tag" style="flex-shrink:0">REF 3</div>
+        <div class="t-body">Ministerio de Ambiente y Desarrollo Sostenible. (2015). <em>Decreto 1076 de 2015: Decreto Único Reglamentario del Sector Ambiente y Desarrollo Sostenible.</em> Bogotá, Colombia.</div>
+      </div>
+      <div class="legal-item" style="border-bottom:none">
+        <div class="legal-tag" style="flex-shrink:0">REF 4</div>
+        <div class="t-body">Project Management Institute. (2021). <em>A Guide to the Project Management Body of Knowledge (PMBOK Guide)</em> (7th ed.). Newtown Square, PA.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 37: CIERRE ======================== -->
+  <div class="slide layout-closing">
+    <div class="slide-num">37 / 37</div>
+    <div class="left">
+      <div class="grid-dots"></div>
+      <span class="t-overline">Fin de la Presentación</span>
+      <div class="t-big" style="font-size:clamp(1.5rem,4.5vw,4.2rem)">¡HAGAMOS<br>DE ANTIOQUIA<br>UNA REGIÓN<br>MÁS LIMPIA!</div>
+      <div class="accent-line"></div>
+      <div class="t-subtitle" style="margin-bottom:16px">INGENIERÍA DE GESTIÓN AMBIENTAL S.A.S. — Medellín, 2026</div>
+      <div class="t-subtitle">Arturo Del Valle Zora · Asesor: Jaime Andrés Llanos Rodríguez</div>
+      <div class="t-subtitle" style="margin-top:10px">Universidad Cooperativa de Colombia · Facultad de Ingeniería</div>
+      <div class="t-subtitle">Aspectos Administrativos, Económicos y Contables para la Gestión de Proyectos</div>
+    </div>
+    <div class="right" style="align-items:center;justify-content:center;flex-direction:column;gap:14px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,7rem);color:rgba(255,255,255,0.1);line-height:1;text-align:center">IGA<br>SAS</div>
+      <div style="text-align:center">
+        <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.42rem,0.8vw,0.62rem);color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase">ODS 6</div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:clamp(0.5rem,0.95vw,0.72rem);color:rgba(255,255,255,0.5);margin-top:4px">Agua Limpia y Saneamiento</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- DOTS -->
+<div class="slides-dots" id="dots"></div>
+<div class="keyboard-hint">Navegar con <span class="key">←</span> <span class="key">→</span> o los botones</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsContainer = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  let current = 0;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsContainer.appendChild(d);
+  });
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dotsContainer.children[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dotsContainer.children[current].classList.add('active');
+    counter.textContent = `Diapositiva ${current + 1} / ${slides.length}`;
+    slides[current].scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function nextSlide() { goTo(current + 1); }
+  function prevSlide() { goTo(current - 1); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextSlide();
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevSlide();
+  });
+
+  // Touch swipe
+  let startX = 0;
+  document.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+  });
+</script>
+</body>
+</html>
